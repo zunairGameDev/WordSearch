@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3744078134505472091
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4774325395861528514}
+  - component: {fileID: 8106837074524274765}
+  m_Layer: 0
+  m_Name: LevelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4774325395861528514
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3744078134505472091}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8106837074524274765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3744078134505472091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d907cae8ff01c9745b9819c44693ee43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelsData: []
+  levelSOList:
+  - {fileID: 11400000, guid: dc1dda72886abe947bd0e931c8992871, type: 2}
+  - {fileID: 11400000, guid: d0f0de4e66603b545b39ce4ca3751e4b, type: 2}
+  - {fileID: 11400000, guid: ae66dc09050bca14ebb02f18ddb06361, type: 2}
+  - {fileID: 11400000, guid: 84621350d60988f4aa54c1c4cac4fd46, type: 2}
+  - {fileID: 11400000, guid: 1942b290e7e6b0943a88f0f396e24c67, type: 2}
+  - {fileID: 11400000, guid: 841bf536c65f8394f97f7448d3fe9a49, type: 2}

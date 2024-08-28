@@ -1,0 +1,1 @@
+candle,damage,bat,hand,apple,mouse,carrot,song,ball,desk,kitchen,life,dirt,road,wire,pink,color,paper,bed,sheet
