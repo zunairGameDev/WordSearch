@@ -5390,7 +5390,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7425745370701122695}
   m_HandleRect: {fileID: 3715535775768661795}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -6604,7 +6604,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: c777c9f38557a4b79a78c3823754c2b6, type: 3}
-  m_Type: 0
+  m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -6612,7 +6612,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 0.6
 --- !u!1 &7665372576659517711
 GameObject:
   m_ObjectHideFlags: 0

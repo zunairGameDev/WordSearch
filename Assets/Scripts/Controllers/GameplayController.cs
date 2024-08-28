@@ -187,9 +187,12 @@ public class GameplayController : MonoBehaviour
         gridLayout.spacing = cellSpacing;
 
         int cellSizeX = (int)gridLayout.cellSize.x + (int)gridLayout.spacing.x;
-
-
+        int cellSizeY = (int)gridLayout.cellSize.y + (int)gridLayout.spacing.y;
         _uiManager.GetGridRectTransform().sizeDelta = new Vector2(cellSizeX * gridSize.x, 0);
+
+        // offset add to differntiate between grid and its parent image
+        Vector2 offset = new Vector2(50f, 50f);
+        _uiManager.GetGridRectTransform().parent.GetComponent<RectTransform>().sizeDelta = new Vector2(cellSizeY * gridSize.y, cellSizeX * gridSize.y) + offset;
     }
 
     private void InsertWordsOnGrid()
