@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 public class GameplayController : MonoBehaviour
 {
     #region singleton
@@ -245,7 +246,7 @@ public class GameplayController : MonoBehaviour
         {
             _lettersGrid[(i * dirX) + row, (i * dirY) + column] = word[i].ToString();
             Transform t = _lettersTransforms[(i * dirX) + row, (i * dirY) + column];
-            t.GetComponentInChildren<Text>().text = word[i].ToString().ToUpper();
+            t.GetComponentInChildren<TextMeshProUGUI>().text = word[i].ToString().ToUpper();
         }
 
         return true;
@@ -307,7 +308,7 @@ public class GameplayController : MonoBehaviour
                 if (_lettersGrid[x, y] == string.Empty)
                 {
                     _lettersGrid[x, y] = _alphabet[rn.Next(_alphabet.Length)].ToString();
-                    _lettersTransforms[x, y].GetComponentInChildren<Text>().text = _lettersGrid[x, y].ToUpper();
+                    _lettersTransforms[x, y].GetComponentInChildren<TextMeshProUGUI>().text = _lettersGrid[x, y].ToUpper();
                 }
             }
         }
@@ -319,7 +320,7 @@ public class GameplayController : MonoBehaviour
 
         foreach (Transform t in highlightedObjects)
         {
-            word += t.GetComponentInChildren<Text>().text.ToLower();
+            word += t.GetComponentInChildren<TextMeshProUGUI>().text.ToLower();
         }
 
         if (insertedWords.Contains(word) || insertedWords.Contains(Reverse(word)))
