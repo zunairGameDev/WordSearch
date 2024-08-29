@@ -17,7 +17,11 @@ public class GameplayController : MonoBehaviour
 
     #region events
     public static Action<RectTransform, RectTransform> FoundWord;
+    public static Action<List<RectTransform>> SelectingWord;
     public static Action Finish;
+    public static Action ClearSelectingLine;
+    public static Action LineColorSelection;
+    public static Action<float> Line_Thickness;
     #endregion
 
 
@@ -25,6 +29,7 @@ public class GameplayController : MonoBehaviour
     private Transform[,] _lettersTransforms;
     private string _alphabet = "abcdefghijklmnopqrstuvwxyz";
     private int _totalWordsCount;
+    private List<RectTransform> selectingWordReactTransform = new List<RectTransform>();
 
     [Header("Settings")]
     [SerializeField] private bool invertedWordsAreValid;
@@ -106,7 +111,12 @@ public class GameplayController : MonoBehaviour
 
         if (!state)
         {
+            ClearSelectingLine();
             ValidateWord();
+        }
+        else
+        {
+            LineColorSelection();
         }
     }
 
@@ -191,7 +201,7 @@ public class GameplayController : MonoBehaviour
         int cellSizeY = (int)gridLayout.cellSize.y + (int)gridLayout.spacing.y;
         _uiManager.GetGridRectTransform().sizeDelta = new Vector2(cellSizeX * gridSize.x, 0);
 
-        // offset add to differntiate between grid and its parent image
+        // offset add to differentiate between grid and its parent image
         Vector2 offset = new Vector2(50f, 50f);
         _uiManager.GetGridRectTransform().parent.GetComponent<RectTransform>().sizeDelta = new Vector2(cellSizeY * gridSize.y, cellSizeX * gridSize.y) + offset;
     }
@@ -248,7 +258,7 @@ public class GameplayController : MonoBehaviour
             Transform t = _lettersTransforms[(i * dirX) + row, (i * dirY) + column];
             t.GetComponentInChildren<TextMeshProUGUI>().text = word[i].ToString().ToUpper();
         }
-
+        LineThickness(_uiManager.GetGridTransform().GetChild(0).GetComponentInChildren<TextMeshProUGUI>().fontSize);
         return true;
     }
 
@@ -295,6 +305,11 @@ public class GameplayController : MonoBehaviour
         }
 
         return true;
+    }
+
+    private void LineThickness(float lineThicknessValue)
+    {
+        Line_Thickness(lineThicknessValue);
     }
 
     private void RandomizeEmptyCells()
@@ -371,8 +386,9 @@ public class GameplayController : MonoBehaviour
 
             for (int i = min; i <= max; i++)
             {
-                _lettersTransforms[x, i].GetComponent<Image>().color = selectColor;
+                //_lettersTransforms[x, i].GetComponent<Image>().color = selectColor;
                 highlightedObjects.Add(_lettersTransforms[x, i]);
+                HighLightSelectingWords(highlightedObjects);
             }
         }
         else if (y == origin.y)
@@ -382,8 +398,9 @@ public class GameplayController : MonoBehaviour
 
             for (int i = min; i <= max; i++)
             {
-                _lettersTransforms[i, y].GetComponent<Image>().color = selectColor;
+                //_lettersTransforms[i, y].GetComponent<Image>().color = selectColor;
                 highlightedObjects.Add(_lettersTransforms[i, y]);
+                HighLightSelectingWords(highlightedObjects);
             }
         }
         else
@@ -394,20 +411,31 @@ public class GameplayController : MonoBehaviour
 
             for (int i = 0, curX = (int)origin.x, curY = (int)origin.y; i <= steps; i++, curX += incX, curY += incY)
             {
-                _lettersTransforms[curX, curY].GetComponent<Image>().color = selectColor;
+                //_lettersTransforms[curX, curY].GetComponent<Image>().color = selectColor;
                 highlightedObjects.Add(_lettersTransforms[curX, curY]);
+                HighLightSelectingWords(highlightedObjects);
             }
+        }
+    }
+    private void HighLightSelectingWords(List<Transform> highlightedObjects)
+    {
+        selectingWordReactTransform.Clear();
+        foreach (Transform t in highlightedObjects)
+        {
+            selectingWordReactTransform.Add(t.GetComponent<RectTransform>());
+            SelectingWord(selectingWordReactTransform);
         }
     }
 
     private void ClearWordSelection()
     {
-        foreach (Transform h in highlightedObjects)
-        {
-            h.GetComponent<Image>().color = Color.white;
-        }
+        //foreach (Transform h in highlightedObjects)
+        //{
+        //    h.GetComponent<Image>().color = Color.white;
+        //}
 
         highlightedObjects.Clear();
+
     }
 
     private void DisplaySelectedWords()

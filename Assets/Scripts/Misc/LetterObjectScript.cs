@@ -18,6 +18,7 @@ public class LetterObjectScript : MonoBehaviour, IPointerDownHandler, IPointerUp
     public void OnPointerUp(PointerEventData eventData)
     {
         GameplayController.Instance.LetterClick((int)Position().x, (int)Position().y, false);
+
     }
 
     public void OnPointerEnter(PointerEventData eventData)

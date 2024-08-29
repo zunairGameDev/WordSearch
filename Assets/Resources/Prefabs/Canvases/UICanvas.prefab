@@ -5144,7 +5144,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6799418277895959714}
-  - {fileID: 5766590619881317742}
   - {fileID: 157102665538802184}
   - {fileID: 6930185313683812908}
   - {fileID: 5209316022955325824}
@@ -5801,7 +5800,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6034338683264012744}
   m_HandleRect: {fileID: 1956374568396471934}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -6567,6 +6566,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5766590619881317742}
   - {fileID: 4282493918761776519}
   m_Father: {fileID: 6799418277895959714}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6816,12 +6816,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2164607445322526631}
+  m_Father: {fileID: 4143331039784314629}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 250.00002}
+  m_SizeDelta: {x: 1525.9502, y: 1175.3158}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5588727788127471623
 MonoBehaviour:
@@ -6835,7 +6835,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0752708a42084602a22bfd817f00984, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _lineThickness: 0
   lineRendererPrefab: {fileID: 1266189878729564, guid: c4cac4e4045e84eb8b79681d1a60230a, type: 3}
+  lineColor: {r: 0, g: 0, b: 0, a: 0}
   colors:
   - {r: 1, g: 0.5613208, b: 0.7932661, a: 0.29803923}
   - {r: 1, g: 0.25, b: 0.33666682, a: 0.29803923}

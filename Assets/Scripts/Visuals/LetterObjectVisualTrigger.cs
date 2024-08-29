@@ -45,11 +45,12 @@ public class LetterObjectVisualTrigger : MonoBehaviour
         {
             AudioManager.Instance.PlaySound(AudioManager.Instance.GetSelect(), 1);
         }
-        transform.DOScale(1.2f, 0.2f).SetEase(Ease.OutBack);
+        //transform.DOScale(1.2f, 0.2f).SetEase(Ease.OutBack);
+       
     }
 
     public void MouseExit()
     {
-        transform.DOScale(1, 0.2f).SetEase(Ease.OutBack);
+        //transform.DOScale(1, 0.2f).SetEase(Ease.OutBack);
     }
 }
