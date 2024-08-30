@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 
 public class ScrollViewWords : MonoBehaviour
 {
@@ -22,13 +23,13 @@ public class ScrollViewWords : MonoBehaviour
 
         GameplayController gameplayController = GameplayController.Instance;
 
-        _rect.sizeDelta = new Vector2(_rect.sizeDelta.x, (gameplayController.cellSize.y + gameplayController.cellSpacing.y) * gameplayController.gridSize.y);
+        _rect.sizeDelta = new Vector2(_rect.sizeDelta.x,/* (gameplayController.cellSize.y + gameplayController.cellSpacing.y) * gameplayController.gridSize.y*/_rect.sizeDelta.y);
     }
 
     public void SpawnWordCell(string word, float delay)
     {
         GameObject cell = Instantiate(wordCellPrefab, scrollViewContent);
-        cell.GetComponentInChildren<Text>().text = word.ToUpper();
+        cell.GetComponentInChildren<TextMeshProUGUI>().text = word.ToUpper();
         cell.transform.DOScale(0, 0.3f).SetEase(Ease.OutBack).From().SetDelay(delay);
     }
 

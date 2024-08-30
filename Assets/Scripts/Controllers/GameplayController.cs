@@ -340,11 +340,11 @@ public class GameplayController : MonoBehaviour
 
         if (insertedWords.Contains(word) || insertedWords.Contains(Reverse(word)))
         {
-            foreach (Transform h in highlightedObjects)
-            {
-                h.GetComponent<Image>().color = Color.white;
-                h.transform.DOPunchScale(-Vector3.one, 0.2f, 10, 1);
-            }
+            //foreach (Transform h in highlightedObjects)
+            //{
+            //    h.GetComponent<Image>().color = Color.white;
+            //    h.transform.DOPunchScale(-Vector3.one, 0.2f, 10, 1);
+            //}
 
             //Visual Event
             RectTransform r1 = highlightedObjects[0].GetComponent<RectTransform>();
