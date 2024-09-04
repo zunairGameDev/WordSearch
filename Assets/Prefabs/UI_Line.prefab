@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4531102318745810588}
   m_Layer: 5
   m_Name: UI_Line
-  m_TagString: LineRender
+  m_TagString: LineRenderer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -93,6 +93,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transforms: []
+  vector2: []
+  selectingLineRenderer: 0
+  canvas: {fileID: 0}
 --- !u!114 &4531102318745810588
 MonoBehaviour:
   m_ObjectHideFlags: 0

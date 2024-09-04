@@ -9,6 +9,7 @@ public class HighlightBehaviour : MonoBehaviour
     public static HighlightBehaviour instance;
     private GameObject _selectingLine;
     public float _lineThickness;
+    public float _selectingLineAngle;
 
     public GameObject lineRendererPrefab;
     public Color lineColor;
@@ -25,6 +26,11 @@ public class HighlightBehaviour : MonoBehaviour
         GameplayController.LineColorSelection += SelectingLineColor;
         GameplayController.Line_Thickness += LineRenderThickness;
         _selectingLine = Instantiate(lineRendererPrefab, transform);
+        _selectingLine.GetComponent<UILineConnector>().selectingLineRenderer = true;
+    }
+    public void InjectingAngle(float angle)
+    {
+        _selectingLineAngle = angle;
     }
     private void LineRenderThickness(float thickness)
     {
@@ -32,6 +38,7 @@ public class HighlightBehaviour : MonoBehaviour
         float offSet = 50f;
         _lineThickness = thickness + offSet;
     }
+    
     private void SelectingLineColor()
     {
         lineColor = colors[Random.Range(0, colors.Length - 1)];
@@ -52,19 +59,19 @@ public class HighlightBehaviour : MonoBehaviour
         line.transform.SetParent(t1.parent, true);
         line.transform.SetSiblingIndex(0);
     }
-    private void CreateLineRenderOnSelectingWord(List<RectTransform> tPoints)
+    private void CreateLineRenderOnSelectingWord(List<Vector2> tPoints)
     {
         _selectingLine.GetComponent<UILineRenderer>().color = lineColor;
         _selectingLine.GetComponent<UILineRenderer>().LineThickness = _lineThickness;
         colorCounter = (colorCounter == colors.Length - 1) ? 0 : colorCounter + 1;
         _selectingLine.transform.DOScale(1, 0.3f).From().SetEase(Ease.OutBack);
-        RectTransform[] points = new RectTransform[2];
+        Vector2[] points = new Vector2[2];
         //for (int i = 0; i < tPoints.Count; i++)
         //{
         points.SetValue(tPoints[0], 0);
         points.SetValue(tPoints[tPoints.Count - 1], 1);
         //}
-        _selectingLine.GetComponent<UILineConnector>().transforms = points;
+        _selectingLine.GetComponent<UILineConnector>().vector2 = points;
     }
     private void ClearingSelectingLine()
     {

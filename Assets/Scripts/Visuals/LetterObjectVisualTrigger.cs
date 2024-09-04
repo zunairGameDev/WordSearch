@@ -5,6 +5,7 @@ public class LetterObjectVisualTrigger : MonoBehaviour
 {
     private LetterObjectScript _letterObject;
 
+
     void Awake()
     {
         _letterObject = GetComponent<LetterObjectScript>();
@@ -46,7 +47,7 @@ public class LetterObjectVisualTrigger : MonoBehaviour
             AudioManager.Instance.PlaySound(AudioManager.Instance.GetSelect(), 1);
         }
         //transform.DOScale(1.2f, 0.2f).SetEase(Ease.OutBack);
-       
+
     }
 
     public void MouseExit()

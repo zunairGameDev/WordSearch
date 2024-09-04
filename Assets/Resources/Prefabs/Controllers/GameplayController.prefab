@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invertedWordsAreValid: 1
-  wordsSource: {fileID: 0}
   words: []
   insertedWords: []
   gridSize: {x: 6, y: 6}
@@ -53,8 +52,9 @@ MonoBehaviour:
   cellSpacing: {x: 12, y: 12}
   letterPrefab: {fileID: 1260658026534292, guid: fc17916b22aa5e545b4587c72be16da5, type: 3}
   word: 
-  orig: {x: -1, y: -1}
-  dir: {x: -1, y: -1}
+  origin: {x: 0, y: 0}
+  direction: {x: 0, y: 0}
   activated: 0
+  tempObject: {fileID: 8328050907868841564, guid: 17db63c9d6a55a34ebe93486f2380988, type: 3}
   highlightedObjects: []
   wordCounter: 0

@@ -37,7 +37,7 @@ public class ScrollViewWords : MonoBehaviour
     {
         for (int i = 0; i < scrollViewContent.childCount; i++)
         {
-            Text t = scrollViewContent.GetChild(i).GetComponentInChildren<Text>();
+            TextMeshProUGUI t = scrollViewContent.GetChild(i).GetComponentInChildren<TextMeshProUGUI>();
 
             if (t.text.ToLower() == word || t.text.ToLower() == GameplayController.Reverse(word))
             {

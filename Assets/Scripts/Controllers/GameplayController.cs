@@ -17,7 +17,7 @@ public class GameplayController : MonoBehaviour
 
     #region events
     public static Action<RectTransform, RectTransform> FoundWord;
-    public static Action<List<RectTransform>> SelectingWord;
+    public static Action<List<Vector2>> SelectingWord;
     public static Action Finish;
     public static Action ClearSelectingLine;
     public static Action LineColorSelection;
@@ -29,7 +29,7 @@ public class GameplayController : MonoBehaviour
     private Transform[,] _lettersTransforms;
     private string _alphabet = "abcdefghijklmnopqrstuvwxyz";
     private int _totalWordsCount;
-    private List<RectTransform> selectingWordReactTransform = new List<RectTransform>();
+    private List<Vector2> selectingWordReactTransform = new List<Vector2>();
 
     [Header("Settings")]
     [SerializeField] private bool invertedWordsAreValid;
@@ -60,8 +60,11 @@ public class GameplayController : MonoBehaviour
     public Vector2 direction;
     public bool activated;
 
+    //public GameObject tempObject;
+
     [HideInInspector]
     public List<Transform> highlightedObjects = new List<Transform>();
+    public List<Vector2> lineVectors = new List<Vector2>();
 
     public int wordCounter;
 
@@ -124,10 +127,13 @@ public class GameplayController : MonoBehaviour
     {
         if (activated)
         {
+            float angle;
             direction = new Vector2(x, y);
-            if (IsLetterAligned(x, y))
+            if (IsLetterAligned(x, y, out angle))
             {
-                HighlightSelectedLetters(x, y);
+
+                Debug.Log("letter aligned true");
+                HighlightSelectedLetters(x, y, angle);
             }
         }
     }
@@ -139,9 +145,31 @@ public class GameplayController : MonoBehaviour
         return new string(charArray);
     }
 
-    public bool IsLetterAligned(int x, int y)
+    public bool IsLetterAligned(int x, int y, out float correctAngle)
     {
-        return (origin.x == x || origin.y == y || Math.Abs(origin.x - x) == Math.Abs(origin.y - y));
+        Vector2 direction = new Vector2(x - origin.x, y - origin.y);
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Debug.Log(angle + "Mathf");
+        // Normalize angle between 0 and 360
+        angle = (angle + 360) % 360;
+        Debug.Log(angle + "AfterAdding");
+
+        // Check if angle is within the acceptable angles with a small margin (epsilon)
+        float epsilon = 5f;
+        float[] allowedAngles = { 0, 45, 90, 135, 180, 225, 270, 315, 360 };
+        foreach (float allowed in allowedAngles)
+        {
+            Debug.Log(Mathf.Abs(angle - allowed) + "Mathf.Abs(angle - allowed)");
+            if (Mathf.Abs(angle - allowed) < epsilon)
+            {
+                correctAngle = allowed;
+                return true;
+            }
+        }
+
+        correctAngle = 0;
+        return false;
+
     }
 
     public void SetWordSource(TextAsset wordSource)
@@ -183,7 +211,7 @@ public class GameplayController : MonoBehaviour
                 GameObject letter = Instantiate(letterPrefab, _uiManager.GetGridTransform());
 
                 letter.name = x.ToString() + "-" + y.ToString();
-
+                letter.GetComponent<LetterObjectScript>().InjectingDependency(_uiManager);
                 _lettersTransforms[x, y] = letter.transform;
             }
         }
@@ -203,7 +231,8 @@ public class GameplayController : MonoBehaviour
 
         // offset add to differentiate between grid and its parent image
         Vector2 offset = new Vector2(50f, 50f);
-        _uiManager.GetGridRectTransform().parent.GetComponent<RectTransform>().sizeDelta = new Vector2(cellSizeY * gridSize.y, cellSizeX * gridSize.y) + offset;
+        _uiManager.GetGridRectTransform().parent.GetComponent<RectTransform>().sizeDelta = new Vector2(cellSizeX * gridSize.x, cellSizeY * gridSize.y) + offset;
+
     }
 
     private void InsertWordsOnGrid()
@@ -373,57 +402,64 @@ public class GameplayController : MonoBehaviour
         }
     }
 
-    private void HighlightSelectedLetters(int x, int y)
+    private void HighlightSelectedLetters(int x, int y, float angle)
     {
         ClearWordSelection();
-
         Color selectColor = HighlightBehaviour.instance.colors[HighlightBehaviour.instance.colorCounter];
 
-        if (x == origin.x)
-        {
-            int min = (int)Math.Min(y, origin.y);
-            int max = (int)Math.Max(y, origin.y);
+        lineVectors.Add(origin);
+        lineVectors.Add(direction + new Vector2(5f, 5f));
+        HighLightSelectingWords(lineVectors);
+        HighlightBehaviour.instance.InjectingAngle(angle);
+        //if (x == origin.x)
+        //{
+        //    int min = (int)Math.Min(y, origin.y);
+        //    int max = (int)Math.Max(y, origin.y);
 
-            for (int i = min; i <= max; i++)
-            {
-                //_lettersTransforms[x, i].GetComponent<Image>().color = selectColor;
-                highlightedObjects.Add(_lettersTransforms[x, i]);
-                HighLightSelectingWords(highlightedObjects);
-            }
-        }
-        else if (y == origin.y)
-        {
-            int min = (int)Math.Min(x, origin.x);
-            int max = (int)Math.Max(x, origin.x);
+        //    for (int i = min; i <= max; i++)
+        //    {
+        //        //_lettersTransforms[x, i].GetComponent<Image>().color = selectColor;
+        //        //highlightedObjects.Add(_lettersTransforms[x, i]);
+        //        lineVectors.Add(new Vector2(x, i));
+        //        HighLightSelectingWords(lineVectors);
+        //    }
+        //}
+        //else if (y == origin.y)
+        //{
+        //    int min = (int)Math.Min(x, origin.x);
+        //    int max = (int)Math.Max(x, origin.x);
 
-            for (int i = min; i <= max; i++)
-            {
-                //_lettersTransforms[i, y].GetComponent<Image>().color = selectColor;
-                highlightedObjects.Add(_lettersTransforms[i, y]);
-                HighLightSelectingWords(highlightedObjects);
-            }
-        }
-        else
-        {
-            int incX = (origin.x > x) ? -1 : 1;
-            int incY = (origin.y > y) ? -1 : 1;
-            int steps = (int)Math.Abs(origin.x - x);
+        //    for (int i = min; i <= max; i++)
+        //    {
+        //        //_lettersTransforms[i, y].GetComponent<Image>().color = selectColor;
+        //        //highlightedObjects.Add(_lettersTransforms[i, y]);
+        //        lineVectors.Add(new Vector2(i, y));
+        //        HighLightSelectingWords(lineVectors);
+        //    }
+        //}
+        //else
+        //{
+        //    int incX = (origin.x > x) ? -1 : 1;
+        //    int incY = (origin.y > y) ? -1 : 1;
+        //    int steps = (int)Math.Abs(origin.x - x);
 
-            for (int i = 0, curX = (int)origin.x, curY = (int)origin.y; i <= steps; i++, curX += incX, curY += incY)
-            {
-                //_lettersTransforms[curX, curY].GetComponent<Image>().color = selectColor;
-                highlightedObjects.Add(_lettersTransforms[curX, curY]);
-                HighLightSelectingWords(highlightedObjects);
-            }
-        }
+        //    for (int i = 0, curX = (int)origin.x, curY = (int)origin.y; i <= steps; i++, curX += incX, curY += incY)
+        //    {
+        //        //_lettersTransforms[curX, curY].GetComponent<Image>().color = selectColor;
+        //        //highlightedObjects.Add(_lettersTransforms[curX, curY]);
+        //        lineVectors.Add(new Vector2(curX, curY));
+        //        HighLightSelectingWords(lineVectors);
+        //    }
+        //}
+
     }
-    private void HighLightSelectingWords(List<Transform> highlightedObjects)
+    private void HighLightSelectingWords(List<Vector2> highlightedObjects)
     {
         selectingWordReactTransform.Clear();
-        foreach (Transform t in highlightedObjects)
+        foreach (Vector2 t in highlightedObjects)
         {
-            selectingWordReactTransform.Add(t.GetComponent<RectTransform>());
-            SelectingWord(selectingWordReactTransform);
+            selectingWordReactTransform.Add(t);
+            SelectingWord(highlightedObjects);
         }
     }
 
@@ -433,7 +469,8 @@ public class GameplayController : MonoBehaviour
         //{
         //    h.GetComponent<Image>().color = Color.white;
         //}
-
+        ClearSelectingLine();
+        lineVectors.Clear();
         highlightedObjects.Clear();
 
     }

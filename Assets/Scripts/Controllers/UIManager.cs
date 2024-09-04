@@ -108,7 +108,7 @@ public class UIManager : MonoBehaviour
             // Rotate each child locally
             foreach (Transform child in gridRotation)
             {
-                if (child.gameObject.CompareTag("LineRender"))
+                if (child.gameObject.CompareTag("LineRenderer"))
                 {
                     // Skip the current child if it has the tag "LineRender"
                     continue;
